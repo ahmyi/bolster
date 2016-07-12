@@ -27,7 +27,6 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
-
     /**
      * Initialization hook method.
      *
@@ -43,6 +42,17 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Pages',
+                'action' => 'display'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Issues',
+                'action' => 'add'
+            ],
+            'authError' => 'Did you really think you are allowed to see that?',
+        ]);
     }
 
     /**

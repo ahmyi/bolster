@@ -1,1 +1,5 @@
-<div class="message error" onclick="this.classList.add('hidden');"><?= h($message) ?></div>
+
+<div class="flash-msg danger">
+  <button type="button" class="close js-flmsg-close"></button>
+  <p><?= h($message) ?></p>
+</div>

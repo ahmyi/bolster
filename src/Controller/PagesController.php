@@ -27,7 +27,6 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
-
     /**
      * Displays a view
      *
@@ -37,29 +36,44 @@ class PagesController extends AppController
      */
     public function display()
     {
-        $path = func_get_args();
 
-        $count = count($path);
-        if (!$count) {
-            return $this->redirect('/');
-        }
-        $page = $subpage = null;
 
-        if (!empty($path[0])) {
-            $page = $path[0];
-        }
-        if (!empty($path[1])) {
-            $subpage = $path[1];
-        }
-        $this->set(compact('page', 'subpage'));
-
-        try {
-            $this->render(implode('/', $path));
-        } catch (MissingTemplateException $e) {
-            if (Configure::read('debug')) {
-                throw $e;
-            }
-            throw new NotFoundException();
-        }
+        // $path = func_get_args();
+        //
+        // $count = count($path);
+        // if (!$count) {
+        //     return $this->redirect('/');
+        // }
+        // $page = $subpage = null;
+        //
+        // if (!empty($path[0])) {
+        //     $page = $path[0];
+        // }
+        // if (!empty($path[1])) {
+        //     $subpage = $path[1];
+        // }
+        // $this->set(compact('page', 'subpage'));
+        //
+        // try {
+        //     $this->render(implode('/', $path));
+        // } catch (MissingTemplateException $e) {
+        //     if (Configure::read('debug')) {
+        //         throw $e;
+        //     }
+        //     throw new NotFoundException();
+        // }
+        $this->loadModel('Issues');
+        $this->loadModel('Groups');
+        $this->loadModel('Resolves');
+        $issues_count = $this->Issues->find('all')->count();
+        $groups_count = $this->Groups->find('all')->count();
+        $resolves_count = $this->Resolves->find('all')->count();
+        $this->set(compact('issues_count', 'resolves_count', 'groups_count'));
+        $this->set('title_for_layout', 'Dashboard');
+        $this->set('icon_for_layout', 'tachometer');
+    }
+    public function index()
+    {
+        // $this->viewBuilder()->layout('login');
     }
 }
